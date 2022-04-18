@@ -1,17 +1,24 @@
 package com.example.actividad_1_moviles_viu.ui.Calculator
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.actividad_1_moviles_viu.R
 import com.example.actividad_1_moviles_viu.databinding.FragmentCalculatorBinding
+import com.example.actividad_1_moviles_viu.ui.settings.SettingsFragment
+import com.example.actividad_1_moviles_viu.Languages
+import com.example.actividad_1_moviles_viu.MainActivity
+import com.example.actividad_1_moviles_viu.SharedPreferences
 import net.objecthunter.exp4j.ExpressionBuilder
-import java.lang.Exception
+import java.util.*
 
 class CalculatorFragment : Fragment() {
 
@@ -20,6 +27,8 @@ class CalculatorFragment : Fragment() {
 
     private var _view:View?=null
     private val viewReference get() = _view!!
+
+    private val CALCULATION_HOLDER_KEY = "calculation_holder"
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -80,5 +89,39 @@ class CalculatorFragment : Fragment() {
             calculationHolder.text =  getString(R.string.syntax_error);
         }
 
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        try{
+            val calculationHolder = viewReference.findViewById<TextView>(R.id.calculationHolder)
+            val holderValue = calculationHolder.text.toString();
+            savedInstanceState.putString("calculationHolder", holderValue)
+            SharedPreferences.storePreferenceString(requireActivity(), holderValue, CALCULATION_HOLDER_KEY)
+        }catch (e:Exception){}
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val holderValue = SharedPreferences.getPreferenceString(requireActivity(), CALCULATION_HOLDER_KEY)
+        checkLanguage()
+        val calculationHolder = viewReference.findViewById<TextView>(R.id.calculationHolder)
+        calculationHolder.text = holderValue
+    }
+
+    private fun checkLanguage(){
+        val config = resources.configuration
+        val locale = config.locale
+        val language = SharedPreferences.getPreferenceString(requireActivity(), SettingsFragment.LANGUAGE_KEY);
+        if(language == Languages.ES.value){
+            val dm = resources.displayMetrics
+            config.setLocale(Locale(language))
+            resources.updateConfiguration(config, dm)
+            val restart = locale.language != language;
+            if(restart){
+                val refresh = Intent(activity, MainActivity::class.java)
+                startActivity(refresh)
+            }
+        }
     }
 }

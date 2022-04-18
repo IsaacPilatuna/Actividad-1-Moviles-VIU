@@ -6,4 +6,5 @@
     <string name="select_language">Seleccionar Idioma</string>
     <string name="spanish">Español</string>
     <string name="english">Inglés</string>
+    <string name="enter_calculation">Ingresar Cálculo</string>
 </resources>

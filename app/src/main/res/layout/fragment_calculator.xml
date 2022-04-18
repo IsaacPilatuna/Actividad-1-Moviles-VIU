@@ -20,14 +20,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="4sp">
 
             <TextView
-                android:id="@+id/calculationPreview"
+                android:id="@+id/calculationHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
                 android:hint="@string/enter_calculation"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -157,24 +159,24 @@
                 android:gravity="center_horizontal">
 
                 <Button
-                    android:id="@+id/button17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0"
-                    android:text="Button" />
-
-                <Button
                     android:id="@+id/btn0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/button15"
+                    android:id="@+id/btnMultiply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleY="0"
-                    android:text="Button" />
+                    android:backgroundTint="@color/teal_700"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/btnDivision"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/teal_700"
+                    android:text="/" />
 
                 <Button
                     android:id="@+id/btnEquals"

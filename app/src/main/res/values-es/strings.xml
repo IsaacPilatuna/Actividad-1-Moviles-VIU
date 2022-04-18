@@ -8,4 +8,7 @@
     <string name="english">Inglés</string>
     <string name="enter_calculation">Ingresar Cálculo</string>
     <string name="syntax_error">Error de Sintaxis!</string>
+    <string name="share_results">Compartir Resultados</string>
+    <string name="input">Entrada</string>
+    <string name="result">Resultado</string>
 </resources>

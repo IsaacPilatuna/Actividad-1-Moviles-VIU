@@ -1,42 +1,41 @@
-package com.example.actividad_1_moviles_viu.ui.Calculator
+package com.example.actividad_1_moviles_viu.ui.calculator
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.actividad_1_moviles_viu.R
 import com.example.actividad_1_moviles_viu.databinding.FragmentCalculatorBinding
 import com.example.actividad_1_moviles_viu.ui.settings.SettingsFragment
-import com.example.actividad_1_moviles_viu.Languages
 import com.example.actividad_1_moviles_viu.MainActivity
+import com.example.actividad_1_moviles_viu.ui.dialog.FragmentResultDialog
 import com.example.actividad_1_moviles_viu.SharedPreferences
+import com.example.actividad_1_moviles_viu.Languages
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.*
 
 class CalculatorFragment : Fragment() {
 
+    companion object{
+        const val RESULT_KEY = "result"
+        const val CALCULATION_HOLDER_KEY = "calculation_holder"
+    }
     private var _binding: FragmentCalculatorBinding? = null
     private val binding get() = _binding!!
 
     private var _view:View?=null
     private val viewReference get() = _view!!
 
-    private val CALCULATION_HOLDER_KEY = "calculation_holder"
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-                ViewModelProvider(this).get(CalculatorViewModel::class.java)
 
         _binding = FragmentCalculatorBinding.inflate(inflater, container, false)
         _view = binding.root
@@ -73,6 +72,10 @@ class CalculatorFragment : Fragment() {
     private val addCharOnClick:View.OnClickListener= View.OnClickListener {
         view  ->
         val calculationHolder = viewReference.findViewById<TextView>(R.id.calculationHolder)
+        val hasSyntaxError = calculationHolder.text == getString(R.string.syntax_error)
+        if(hasSyntaxError){
+            calculationHolder.text = "";
+        }
         calculationHolder.text = "${calculationHolder.text}${(view as Button).text}"
 
     }
@@ -80,13 +83,19 @@ class CalculatorFragment : Fragment() {
     private val calculate:View.OnClickListener= View.OnClickListener {
             view  ->
         val calculationHolder = viewReference.findViewById<TextView>(R.id.calculationHolder)
-        val expression = ExpressionBuilder(calculationHolder.text.toString()).build()
-        try {
-            val result = expression.evaluate()
-            val longResult = result.toLong()
-            calculationHolder.text = longResult.toString()
-        }catch (error:Exception){
-            calculationHolder.text =  getString(R.string.syntax_error);
+        val holderValue = calculationHolder.text.toString()
+        if(!holderValue.isNullOrBlank()){
+            val expression = ExpressionBuilder(holderValue).build()
+            try {
+                val result = expression.evaluate()
+                val longResult = result.toLong()
+                SharedPreferences.storePreferenceString(requireActivity(), longResult.toString(), RESULT_KEY)
+                SharedPreferences.storePreferenceString(requireActivity(), holderValue, CALCULATION_HOLDER_KEY)
+                val dialog = FragmentResultDialog();
+                dialog.show(requireActivity().supportFragmentManager, "ResultDialog")
+            }catch (error:Exception){
+                calculationHolder.text =  getString(R.string.syntax_error)
+            }
         }
 
     }

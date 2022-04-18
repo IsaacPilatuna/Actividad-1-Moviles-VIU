@@ -1,6 +1,5 @@
 package com.example.actividad_1_moviles_viu.ui.settings
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.actividad_1_moviles_viu.Languages
 import com.example.actividad_1_moviles_viu.MainActivity
@@ -74,7 +72,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setLanguage(language:Languages, restart:Boolean=true){
+    private fun setLanguage(language: Languages, restart:Boolean=true){
         SharedPreferences.storePreferenceString(requireActivity(), language.value, LANGUAGE_KEY)
         val locale = Locale(language.value)
         val config = resources.configuration

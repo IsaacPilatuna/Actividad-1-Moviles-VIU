@@ -1,4 +1,4 @@
-package com.example.actividad_1_moviles_viu.ui.Calculator
+package com.example.actividad_1_moviles_viu.ui.calculator
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

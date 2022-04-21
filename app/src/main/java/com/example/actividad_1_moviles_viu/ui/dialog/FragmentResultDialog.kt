@@ -28,7 +28,6 @@ class FragmentResultDialog : DialogFragment() {
     private lateinit var holderValue:String;
     private lateinit var resultValue:String;
 
-    private lateinit var viewModel: FragmentResultDialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +42,6 @@ class FragmentResultDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FragmentResultDialogViewModel::class.java)
     }
 
     private fun loadValues(view:View){

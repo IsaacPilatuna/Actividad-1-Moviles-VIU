@@ -55,6 +55,19 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun setLanguage(language: Languages, restart:Boolean=true){
+        SharedPreferences.storePreferenceString(requireActivity(), language.value, LANGUAGE_KEY)
+        val locale = Locale(language.value)
+        val config = resources.configuration
+        val dm = resources.displayMetrics
+        config.setLocale(locale)
+        resources.updateConfiguration(config, dm)
+        if(restart){
+            val refresh = Intent(activity, MainActivity::class.java)
+            startActivity(refresh)
+        }
+    }
+
     private fun checkLanguage(){
 
         var language = SharedPreferences.getPreferenceString(requireActivity(), LANGUAGE_KEY);
@@ -72,18 +85,6 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setLanguage(language: Languages, restart:Boolean=true){
-        SharedPreferences.storePreferenceString(requireActivity(), language.value, LANGUAGE_KEY)
-        val locale = Locale(language.value)
-        val config = resources.configuration
-        val dm = resources.displayMetrics
-        config.setLocale(locale)
-        resources.updateConfiguration(config, dm)
-        if(restart){
-            val refresh = Intent(activity, MainActivity::class.java)
-            startActivity(refresh)
-        }
-    }
 
 
 }

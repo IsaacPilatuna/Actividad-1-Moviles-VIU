@@ -63,6 +63,7 @@ class CalculatorFragment : Fragment() {
 
     }
 
+
     private val clear:View.OnClickListener= View.OnClickListener{
         view ->
         val calculationHolder = viewReference.findViewById<TextView>(R.id.calculationHolder)
@@ -97,7 +98,6 @@ class CalculatorFragment : Fragment() {
                 calculationHolder.text =  getString(R.string.syntax_error)
             }
         }
-
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
